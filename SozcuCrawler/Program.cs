@@ -1,8 +1,4 @@
-﻿using HtmlAgilityPack;
-using Nest;
-using RestSharp;
-using SozcuCrawler.Entities;
-using SozcuCrawler.Services;
+﻿using SozcuCrawler.Services;
 
 namespace SozcuCrawler;
 
