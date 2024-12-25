@@ -3,23 +3,16 @@ using Nest;
 using SozcuWebApp.Models;
 
 namespace SozcuWebApp.Pages;
-public class IndexModel : PageModel
+public class IndexModel(IElasticClient elasticClient) : PageModel
 {
-    private readonly IElasticClient _elasticClient;
-
     public List<SozcuArticle> Articles { get; set; } = new();
-
-    public IndexModel(IElasticClient elasticClient)
-    {
-        _elasticClient = elasticClient;
-    }
 
     public void OnGet(string query)
     {
         // Eðer kullanýcý bir sorgu girdiyse Elasticsearch'te arama yap
         if (!string.IsNullOrWhiteSpace(query))
         {
-            var searchResponse = _elasticClient.Search<SozcuArticle>(s => s
+            var searchResponse = elasticClient.Search<SozcuArticle>(s => s
                 .Query(q => q.Match(m => m
                         .Field(f => f.Title)
                         .Query(query) // Kullanýcýdan gelen arama sorgusu
@@ -34,7 +27,7 @@ public class IndexModel : PageModel
         else
         {
             // Kullanýcý sorgu girmediyse tüm verileri getir
-            var searchResponse = _elasticClient.Search<SozcuArticle>(s => s
+            var searchResponse = elasticClient.Search<SozcuArticle>(s => s
                 .Query(q => q.MatchAll())
                 .Size(50)); // Ýlk 50 kaydý getir
 
