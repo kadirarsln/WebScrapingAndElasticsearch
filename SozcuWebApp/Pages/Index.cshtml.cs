@@ -29,7 +29,7 @@ public class IndexModel(IElasticClient elasticClient) : PageModel
             // Kullanýcý sorgu girmediyse tüm verileri getir
             var searchResponse = elasticClient.Search<SozcuArticle>(s => s
                 .Query(q => q.MatchAll())
-                .Size(50)); // Ýlk 50 kaydý getir
+                .Size(50));   // Ýlk 50 kaydý getir
 
             if (searchResponse.IsValid)
             {
